@@ -1,27 +1,30 @@
 package baekjoon
 
 import java.util.*
-
-fun totalBudget(arr: Array<Int>, upperLimit: Int) =
-    arr.reduce { sum, elem -> if (elem > upperLimit) sum + upperLimit else sum + elem }
+import kotlin.math.max
 
 fun main() = with(Scanner(System.`in`)) {
     val N = nextInt()
-    val arr = Array(N) { nextInt() }
-    arr.sort()
+    var max = 0
+    var sum = 0
+    val arr = IntArray(N)
+    for (i in arr.indices) {
+        val elem = nextInt()
+        max = max(max, elem)
+        arr[i] = elem
+        sum += elem
+    }
     val M = nextInt()
-    val sum = arr.sum()
     if (sum <= M) {
-        print(arr.max())
+        println(max)
     } else {
-        var low = arr[0]
-        var high = arr[arr.size - 1]
+        var low = 0
+        var high = max
         var mid: Int = (low + high) / 2;
         var sol = mid
         while (low <= high) {
             mid = (low + high) / 2
-            val bud = totalBudget(arr, mid)
-            if (bud > M) {
+            if (calc(arr, mid) > M) {
                 high = mid - 1
             } else {
                 sol = mid
@@ -30,4 +33,10 @@ fun main() = with(Scanner(System.`in`)) {
         }
         print(sol)
     }
+}
+
+fun calc(arr: IntArray, upperBound: Int): Int {
+    var sum = 0
+    for (i in arr.indices) sum += if (arr[i] > upperBound) upperBound else arr[i]
+    return sum
 }
