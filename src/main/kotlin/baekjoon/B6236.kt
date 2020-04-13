@@ -8,17 +8,19 @@ fun main() = with(Scanner(System.`in`)) {
     val M = nextInt()
     val arr = IntArray(N)
     var max = 0
+    var sum = 0
     for (i in 0 until N) {
         val elem = nextInt()
         max = max(max, elem)
+        sum += elem
         arr[i] = elem
     }
-    fun withDraw(cost: Int): Int {
+    fun withdraw(cost: Int): Int {
         var cur = 0
         var cnt = 0
         for (i in 0 until N) {
             if (cur < arr[i]) {
-                cnt++
+                cnt += 1
                 cur = cost - arr[i]
             } else {
                 cur -= arr[i]
@@ -28,15 +30,17 @@ fun main() = with(Scanner(System.`in`)) {
     }
 
     var low = max
-    var high = 1000000000
-    var mid = 0
-    while (low < high) {
+    var high = sum
+    var mid: Int
+    var sol = 0
+    while (low <= high) {
         mid = ((low + high) / 2)
-        if (withDraw(mid) > M) {
+        if (withdraw(mid) > M) {
             low = mid + 1
         } else {
-            high = mid
+            sol = mid
+            high = mid - 1
         }
     }
-    print(mid)
+    print(sol)
 }
