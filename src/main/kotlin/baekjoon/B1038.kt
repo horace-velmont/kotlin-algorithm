@@ -13,7 +13,7 @@ fun main() = with(Scanner(System.`in`)) {
         var flag = true
 
         for (i in 0 until str.length-1) {
-            if (cache((str[i] + str[i+1]).toInt()))
+            //if (cache((str[i] + str[i+1]).toInt()))
             if (str[0] <= str[1]) {
                 flag = false
             }
